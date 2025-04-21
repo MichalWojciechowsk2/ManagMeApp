@@ -18,9 +18,11 @@ export default function ProjectStoriesPage() {
     <div>
       {project ? (
         <div>
-          <h1>{project.name}</h1>
-          <p>{project.description}</p>
-          <StoriesList projectId={id} />
+          <div className="flex items-end space-x-10 mb-2 ml-10">
+            <h1 className="text-3xl">{project.name}</h1>
+            <p className="text-l">{project.description}</p>
+          </div>
+          <StoriesList projectId={id as string} />
         </div>
       ) : (
         <div>Loading project...</div>

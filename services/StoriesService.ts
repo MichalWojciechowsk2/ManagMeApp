@@ -28,7 +28,7 @@ class StorieService {
     }
   }
   // DELETE
-  static deleteProjectById(id: string): void {
+  static deleteStorieById(id: string): void {
     const stories = StorieService.getStories();
     const updatedStories = stories.filter((storie) => storie.id !== id);
     localStorage.setItem("stories", JSON.stringify(updatedStories));

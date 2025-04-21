@@ -7,13 +7,13 @@ interface AddStoriesProps {
   isClicked: boolean;
   onClose: () => void;
   onSave: (newStorie: Storie) => void;
-  projectIdFromMainPage: string;
+  projectId: string;
 }
 const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   isClicked,
   onClose,
   onSave,
-  projectIdFromMainPage,
+  projectId,
 }) => {
   const [newStorie, setNewStorie] = useState<Storie>({
     id: "",
@@ -25,6 +25,18 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
     state: "todo",
     owner: "",
   });
+  const resetForm = () => {
+    setNewStorie({
+      id: "",
+      name: "",
+      description: "",
+      priority: "low",
+      projectId: "",
+      createDate: null,
+      state: "todo",
+      owner: "",
+    });
+  };
   const [user, setUser] = useState<User>(UserService.getMockedUser()); //Think about useEffect
   const handleAddNewStorie = () => {
     if (
@@ -36,7 +48,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
       newStorie.id = Math.random().toString(36).substring(2, 9);
       newStorie.createDate = new Date();
       newStorie.owner = user.id;
-      newStorie.projectId = projectIdFromMainPage;
+      newStorie.projectId = projectId;
       onSave(newStorie);
       setNewStorie(newStorie);
       onClose();
@@ -44,50 +56,87 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   };
   return (
     isClicked && (
-      <div>
-        <h2>Add New Storie</h2>
-        <div>
-          <div>
-            <label>Name</label>
+      <div className="ml-[20%] mr-[20%] mt-5 bg-[#182236] rounded">
+        <h2 className="text-center">Add New Storie</h2>
+        <div className="ml-1">
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               value={newStorie.name}
               onChange={(e) =>
                 setNewStorie({ ...newStorie, name: e.target.value })
               }
+              className="bg-gray-100 text-gray-600 rounded"
             />
           </div>
           <div>
-            <label>Description</label>
+            <label className="block text-sm font-medium">Description</label>
             <input
               type="text"
               value={newStorie.description}
               onChange={(e) =>
                 setNewStorie({ ...newStorie, description: e.target.value })
               }
+              className="bg-gray-100 text-gray-600 rounded"
             />
           </div>
           <div>
-            <label>Priority</label>
-            <select>
+            <label className="block text-sm font-medium">Priority</label>
+            <select
+              className="bg-gray-100 text-gray-600 rounded"
+              value={newStorie.priority}
+              onChange={(e) =>
+                setNewStorie({
+                  ...newStorie,
+                  priority: e.target.value as "low" | "medium" | "high",
+                })
+              }
+            >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select>
           </div>
           <div>
-            <label>State</label>
-            <select>
+            <label className="block text-sm font-medium">State</label>
+            <select
+              className="bg-gray-100 text-gray-600 rounded"
+              value={newStorie.state}
+              onChange={(e) =>
+                setNewStorie({
+                  ...newStorie,
+                  state: e.target.value as "todo" | "doing" | "done",
+                })
+              }
+            >
               <option value="todo">To do</option>
               <option value="doing">Doing</option>
               <option value="done">Done</option>
             </select>
           </div>
         </div>
-        <div>
-          <button onClick={onClose}>Cancel</button>
-          <button onClick={handleAddNewStorie}>Save</button>
+        <div className="flex justify-end space-x-2 mr-5">
+          <button
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
+            className="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded-md cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              handleAddNewStorie();
+              resetForm();
+            }}
+            className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md cursor-pointer"
+          >
+            Save
+          </button>
         </div>
+        <div className="h-2"></div>
       </div>
     )
   );
