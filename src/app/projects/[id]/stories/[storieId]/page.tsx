@@ -84,5 +84,5 @@
 // };
 // export default StoriesList;
 
-//I made stories thought that it shoud look like this microtasks and now
-//refactor that code
+// I made stories thought that it shoud look like this microtasks and now
+// refactor that code

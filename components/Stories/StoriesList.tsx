@@ -3,6 +3,7 @@ import { Storie } from "../../types/stories";
 import StorieService from "../../services/StoriesService";
 import AddStoriesComponent from "./CrudComponents/AddStoriesComponent";
 import DeleteStorieModal from "./CrudComponents/DeleteStorieModal";
+import EditStorieComponent from "./CrudComponents/EditStorieComponent";
 
 interface StoriesListProps {
   projectId: string;
@@ -16,6 +17,8 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
   );
   const [storieToDelete, setStorieToDelete] = useState<Storie | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [storieToEdit, setStorieToEdit] = useState<Storie | null>(null);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
 
   const loadStories = () => {
     const savedStories = StorieService.getStories().filter(
@@ -23,6 +26,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
     );
     setStories(savedStories);
   };
+
   useEffect(() => {
     loadStories();
   }, []);
@@ -31,10 +35,12 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
     StorieService.saveStorie(newStorie);
     loadStories();
   };
+
   const handleAskDelete = (storie: Storie) => {
     setStorieToDelete(storie);
     setShowDeleteModal(true);
   };
+
   const handleConfirmDelete = () => {
     if (storieToDelete) {
       StorieService.deleteStorieById(storieToDelete.id);
@@ -42,6 +48,18 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
       setStorieToDelete(null);
       setShowDeleteModal(false);
     }
+  };
+
+  const handleEditStorie = (storie: Storie) => {
+    setStorieToEdit(storie);
+    setShowEdit(true);
+  };
+
+  const handleSaveEditStorie = (editedStorie: Storie) => {
+    StorieService.updateStorie(editedStorie);
+    loadStories();
+    setShowEdit(false);
+    setStorieToEdit(null);
   };
 
   return (
@@ -82,37 +100,49 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
         <ul>
           <div className="flex ml-[20%] mr-[20%] h-auto mb-1">
             <p className="w-[14%] mr-3">Name</p>
-            <p className="w-76%">Description</p>
+            <p className="w-[31%]">Description</p>
+            <p className="w-[55%]">State</p>
           </div>
           {stories
             .filter((storie) => filter === "all" || storie.state === filter)
             .map((storie) => (
-              <li
-                key={storie.id}
-                className="flex justify-between items-center ml-[20%] mr-[20%] h-auto group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b]"
-              >
-                <div className="w-[30%] text-ellipsis overflow-hidden whitespace-nowrap mr-3">
-                  {storie.name}
-                </div>
-                <div className="w-[70%] text-sm break-words whitespace-normal overflow-hidden overflow-ellipsis">
-                  {storie.description}
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
-                    onClick={() => handleEditStorie(project)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                    onClick={() => handleAskDelete(storie)}
-                  >
-                    Delete
-                  </button>
-                </div>
-                <EditStorieComponent />
-              </li>
+              <React.Fragment key={storie.id}>
+                <li className="flex justify-between items-center ml-[20%] mr-[20%] h-auto group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b] mb-1">
+                  <div className="w-[30%] text-ellipsis overflow-hidden whitespace-nowrap mr-3">
+                    {storie.name}
+                  </div>
+                  <div className="w-[70%] text-sm break-words whitespace-normal overflow-hidden overflow-ellipsis">
+                    {storie.description}
+                  </div>
+                  <div className="w-[70%] text-sm break-words whitespace-normal overflow-hidden overflow-ellipsis">
+                    {storie.state}
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
+                      onClick={() => handleEditStorie(storie)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                      onClick={() => handleAskDelete(storie)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+                {showEdit && storieToEdit?.id === storie.id && (
+                  <div className="ml-[20%] mr-[20%] bg-white rounded-b shadow-md">
+                    <EditStorieComponent
+                      isOpen={showEdit}
+                      onClose={() => setShowEdit(false)}
+                      storieToEdit={storieToEdit}
+                      onSave={handleSaveEditStorie}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
             ))}
         </ul>
         <DeleteStorieModal
@@ -128,4 +158,5 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
     </div>
   );
 };
+
 export default StoriesList;

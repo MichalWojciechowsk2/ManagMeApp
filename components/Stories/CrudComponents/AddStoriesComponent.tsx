@@ -56,7 +56,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   };
   return (
     isClicked && (
-      <div className="ml-[20%] mr-[20%] mt-5 bg-[#182236] rounded">
+      <div className="ml-[20%] mr-[20%] mt-5 bg-slate-600 rounded">
         <h2 className="text-center">Add New Storie</h2>
         <div className="ml-1">
           <div className="mb-2">
