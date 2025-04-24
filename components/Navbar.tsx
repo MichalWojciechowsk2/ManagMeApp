@@ -1,14 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { User } from "../types/user";
-import UserService from "../services/UserService";
+import { useUser } from "../context/UserContext";
 
 const Navbar = () => {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    const fetchedUser = UserService.getMockedUser();
-    setUser(fetchedUser);
-  }, []);
+  const user = useUser();
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 mb-5">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">

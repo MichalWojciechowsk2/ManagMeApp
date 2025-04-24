@@ -1,4 +1,4 @@
-import RootLayout from "./layout";
+"use client";
 import ProjectsList from "../../components/Projects/ProjectsList";
 
 export default function Home() {

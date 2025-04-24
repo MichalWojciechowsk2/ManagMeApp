@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Storie } from "../../../types/stories";
+import { Task } from "../../../types/task";
 import UserService from "../../../services/UserService";
 import { User } from "../../../types/user";
 

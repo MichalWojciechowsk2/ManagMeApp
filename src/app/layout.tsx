@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "../../components/Navbar";
+import { UserProvider } from "../../context/UserContext";
 
 export const metadata = {
   title: "Menage Me",
@@ -14,10 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark:bg-gray-900">
-        <Navbar />
-        <div>
-          <main>{children}</main>
-        </div>
+        <UserProvider>
+          <Navbar />
+          <div>
+            <main>{children}</main>
+          </div>
+        </UserProvider>
       </body>
     </html>
   );
