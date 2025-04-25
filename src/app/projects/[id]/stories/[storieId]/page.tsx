@@ -3,6 +3,7 @@ import { useParams } from "next/navigation";
 import { Storie } from "../../../../../../types/stories";
 import { useEffect, useState } from "react";
 import StorieService from "../../../../../../services/StoriesService";
+import TasksList from "../../../../../../components/Tasks/TaskList";
 
 export default function TasksStoriesPage() {
   const { storieId } = useParams();
@@ -11,6 +12,7 @@ export default function TasksStoriesPage() {
     if (typeof storieId === "string") {
       const foundStory = StorieService.getStorieById(storieId);
       setStory(foundStory ?? null);
+      console.log(`Story ID: ${storieId}`);
     }
   }, [storieId]);
   return (
@@ -21,7 +23,7 @@ export default function TasksStoriesPage() {
             <h1 className="text-3xl">{story.name}</h1>
             <p className="text-l">{story.description}</p>
           </div>
-          <TaskList storyId={storieId as string} />
+          <TasksList storyId={storieId as string} />
         </div>
       ) : (
         <div>Loading story...</div>

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Storie } from "../../types/stories";
-import StorieService from "../../services/StoriesService";
-import AddStoriesComponent from "./CrudComponents/AddStoriesComponent";
+import AddTaskComponent from "./CrudComponents/AddTaskModal";
+import { Task } from "../../types/task";
+import TaskService from "../../services/TaskService";
 
 interface StoriesListProps {
-  projectId: string;
+  storyId: string;
 }
 
-const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
-  const [stories, setStories] = useState<Storie[]>([]);
+const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [showAddComponent, setShowAddComponent] = useState<boolean>(false);
-  const loadStories = () => {
-    const savedStories = StorieService.getStories().filter(
-      (storie) => storie.projectId === projectId
+  const loadTasks = () => {
+    const savedTasks = TaskService.getTasks().filter(
+      (task) => task.storyId === storyId
     );
-    setStories(savedStories);
+    setTasks(savedTasks);
   };
   useEffect(() => {
-    loadStories();
+    loadTasks();
   }, []);
 
-  const handleSaveStorie = (newStorie: Storie) => {
-    StorieService.saveStorie(newStorie);
-    loadStories();
+  const handleSaveTask = (newTask: Task) => {
+    TaskService.saveTask(newTask);
+    loadTasks();
   };
 
   return (
@@ -32,24 +32,18 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
           onClick={() => setShowAddComponent(true)}
           className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
         >
-          Add Stories
+          Add Task
         </button>
       </div>
-      <AddStoriesComponent
-        isClicked={showAddComponent}
-        onClose={() => setShowAddComponent(false)}
-        onSave={handleSaveStorie}
-        projectId={projectId}
-      />
       <div className="flex space-x-2 ml-5 mr-5 mt-5">
         <div className="bg-[#182236] w-[33%]">
           <div className="text-center">To do</div>
           <ul>
-            {stories
-              .filter((storie) => storie.state === "todo")
-              .map((storie) => (
-                <li key={storie.id} className="ml-2">
-                  {storie.name}
+            {tasks
+              .filter((task) => task.state === "todo")
+              .map((task) => (
+                <li key={task.id} className="ml-2">
+                  {task.name}
                 </li>
               ))}
           </ul>
@@ -57,11 +51,11 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
         <div className="bg-[#182236] w-[33%]">
           <div className="text-center">Doing</div>
           <ul>
-            {stories
-              .filter((storie) => storie.state === "doing")
-              .map((storie) => (
-                <li key={storie.id} className="ml-2">
-                  {storie.name}
+            {tasks
+              .filter((task) => task.state === "doing")
+              .map((task) => (
+                <li key={task.id} className="ml-2">
+                  {task.name}
                 </li>
               ))}
           </ul>
@@ -69,20 +63,26 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
         <div className="bg-[#182236] w-[33%]">
           <div className="text-center">Done</div>
           <ul>
-            {stories
-              .filter((storie) => storie.state === "done")
-              .map((storie) => (
-                <li key={storie.id} className="ml-2">
-                  {storie.name}
+            {tasks
+              .filter((task) => task.state === "done")
+              .map((task) => (
+                <li key={task.id} className="ml-2">
+                  {task.name}
                 </li>
               ))}
           </ul>
+          <AddTaskComponent
+            isClicked={showAddComponent}
+            onClose={() => setShowAddComponent(false)}
+            onSave={handleSaveTask}
+            storyId={storyId}
+          />
         </div>
       </div>
     </div>
   );
 };
-export default StoriesList;
+export default TasksList;
 
 // I made stories thought that it shoud look like this microtasks and now
 // refactor that code

@@ -1,12 +1,14 @@
+import { User } from "./user";
+
 export interface Task {
   id: string;
   name: string;
   description: string;
   priority: "low" | "medium" | "high";
   storyId: string;
-  expectedDoneDate: Date;
+  doneDate: Date | null;
   state: "todo" | "doing" | "done";
   addedDate: Date;
-  endDate: Date;
-  responsibleUser: string;
+  endDate: Date | null;
+  responsibleUserId: string;
 }
