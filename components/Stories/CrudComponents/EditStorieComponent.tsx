@@ -66,7 +66,9 @@ const EditStorieComponent: React.FC<EditStorieProps> = ({
         />
       </div>
       <div className="mb-2">
-        <label className="block text-xs font-medium text-gray-200">State</label>
+        <label className="block text-xs font-medium text-gray-200">
+          Priority
+        </label>
         <select
           className="bg-slate-600 text-gray-200 rounded text-xs border"
           value={priority}
