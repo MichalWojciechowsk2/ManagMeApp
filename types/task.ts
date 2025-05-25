@@ -6,9 +6,10 @@ export interface Task {
   description: string;
   priority: "low" | "medium" | "high";
   storyId: string;
-  doneDate: Date | null;
+  expectedDoneDate: Date | null;
   state: "todo" | "doing" | "done";
   addedDate: Date;
+  startDate: Date | null;
   endDate: Date | null;
-  responsibleUserId: string;
+  responsibleUserId: string | null;
 }

@@ -4,12 +4,14 @@ import { Task } from "../../types/task";
 import TaskService from "../../services/TaskService";
 import EditTaskModal from "./CrudComponents/EditTaskModal";
 import DeleteTaskModal from "./CrudComponents/DeleteTaskModal";
+import Link from "next/link";
 
 interface StoriesListProps {
+  projectId: string;
   storyId: string;
 }
 
-const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
+const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showAddComponent, setShowAddComponent] = useState<boolean>(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
@@ -76,7 +78,11 @@ const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
                   key={task.id}
                   className="flex justify-between items-center group mb-2 rounded-lg"
                 >
-                  <div>{task.name}</div>
+                  <Link
+                    href={`/projects/${projectId}/stories/${storyId}/tasks/${task.id}`}
+                  >
+                    <div>{task.name}</div>
+                  </Link>
                   <div>
                     <button
                       onClick={() => handleEditTask(task)}
@@ -105,7 +111,11 @@ const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
                   key={task.id}
                   className="flex justify-between items-center group mb-2 rounded-lg"
                 >
-                  {task.name}
+                  <Link
+                    href={`/projects/${projectId}/stories/${storyId}/tasks/${task.id}`}
+                  >
+                    <div>{task.name}</div>
+                  </Link>
                   <div>
                     <button
                       onClick={() => handleEditTask(task)}
@@ -134,7 +144,11 @@ const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
                   key={task.id}
                   className="flex justify-between items-center group mb-2 rounded-lg"
                 >
-                  {task.name}
+                  <Link
+                    href={`/projects/${projectId}/stories/${storyId}/tasks/${task.id}`}
+                  >
+                    <div>{task.name}</div>
+                  </Link>
                   <div>
                     <button
                       onClick={() => handleEditTask(task)}
@@ -168,9 +182,10 @@ const TasksList: React.FC<StoriesListProps> = ({ storyId }) => {
                 description: "",
                 priority: "low",
                 storyId: "",
-                doneDate: new Date(),
+                expectedDoneDate: new Date(),
                 state: "todo",
                 addedDate: new Date(),
+                startDate: new Date(),
                 endDate: new Date(),
                 responsibleUserId: "",
               }

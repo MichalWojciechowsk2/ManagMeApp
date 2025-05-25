@@ -109,7 +109,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
             .filter((storie) => filter === "all" || storie.state === filter)
             .map((storie) => (
               <React.Fragment key={storie.id}>
-                <li className="flex justify-between items-center group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b] mb-2 rounded-lg">
+                <li className="flex justify-between items-center group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b] rounded-lg">
                   <Link
                     href={`/projects/${projectId}/stories/${storie.id}`}
                     className="flex w-full mb-2 md:w-[70%] cursor-pointer"

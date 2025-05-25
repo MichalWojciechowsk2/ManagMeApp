@@ -9,30 +9,44 @@ import React, {
 import { User } from "../types/user";
 import UserService from "../services/UserService";
 
-const UserContext = createContext<User | null>(null);
+interface UserContextType {
+  currentUser: User | null;
+  allUsers: User[];
+}
+const UserContext = createContext<UserContextType>({
+  currentUser: null,
+  allUsers: [],
+});
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
 
   useEffect(() => {
     UserService.initMockedUsers();
     const fetchedUser = UserService.getLoggedInUser();
     if (fetchedUser) {
-      setUser(fetchedUser);
+      setCurrentUser(fetchedUser);
     } else {
       console.log("No user found in ls");
     }
+    const allUsers = UserService.getAllUsers();
+    setAllUsers(allUsers);
   }, []);
   useEffect(() => {
-    if (user) {
-      console.log(`Logged in user: ${user.name}`);
+    if (currentUser) {
+      console.log(`Logged in user: ${currentUser.name}`);
     }
   }, []);
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ currentUser, allUsers }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => useContext(UserContext);

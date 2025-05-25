@@ -6,13 +6,14 @@ import StorieService from "../../../../../../services/StoriesService";
 import TasksList from "../../../../../../components/Tasks/TaskList";
 
 export default function TasksStoriesPage() {
-  const { storieId } = useParams();
+  const { projectId, storieId } = useParams();
   const [story, setStory] = useState<Storie | null>(null);
   useEffect(() => {
     if (typeof storieId === "string") {
       const foundStory = StorieService.getStorieById(storieId);
       setStory(foundStory ?? null);
       console.log(`Story ID: ${storieId}`);
+      console.log(`Project ID: ${projectId}`);
     }
   }, [storieId]);
   return (
@@ -23,7 +24,10 @@ export default function TasksStoriesPage() {
             <h1 className="text-3xl">{story.name}</h1>
             <p className="text-l">{story.description}</p>
           </div>
-          <TasksList storyId={storieId as string} />
+          <TasksList
+            projectId={projectId as string}
+            storyId={storieId as string}
+          />
         </div>
       ) : (
         <div>Loading story...</div>

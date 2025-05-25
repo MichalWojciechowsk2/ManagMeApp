@@ -21,11 +21,12 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
     description: "",
     priority: "low",
     storyId: "",
-    doneDate: null,
+    expectedDoneDate: null,
     state: "todo",
     addedDate: new Date(),
+    startDate: null,
     endDate: null,
-    responsibleUserId: "",
+    responsibleUserId: null,
   };
   const [newTask, setNewTask] = useState<Task>(defaultAddForm);
   const resetForm = () => {
@@ -41,18 +42,12 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
       console.error("No logged in user");
       return;
     }
-    if (
-      newTask.name &&
-      newTask.description &&
-      newTask.priority &&
-      newTask.state
-    ) {
+    if (newTask.name && newTask.description && newTask.priority) {
       newTask.id = Math.random().toString(36).substring(2, 9);
       newTask.storyId = storyId;
       newTask.addedDate = new Date();
-      // if (!newTask.responsibleUserId) {
-      //   newTask.responsibleUserId = "";
-      // }
+      newTask.responsibleUserId = null;
+      newTask.state = "todo";
       onSave(newTask);
       setNewTask(newTask);
       onClose();
@@ -61,7 +56,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
   return (
     isClicked && (
       <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-        <div className="ml-[20%] mr-[20%] mt-5 bg-slate-600 rounded">
+        <div className="ml-[20%] mr-[20%] mt-5 bg-slate-600 rounded p-2 w-1/4 h-2/5">
           <h2 className="text-center">Add New Task</h2>
           <div className="ml-1">
             <div className="mb-2">
@@ -72,24 +67,23 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
                 onChange={(e) =>
                   setNewTask({ ...newTask, name: e.target.value })
                 }
-                className="bg-gray-100 text-gray-600 rounded"
+                className="bg-gray-100 text-gray-600 rounded w-1/2"
               />
             </div>
             <div>
               <label className="block text-sm font-medium">Description</label>
-              <input
-                type="text"
+              <textarea
                 value={newTask.description}
                 onChange={(e) =>
                   setNewTask({ ...newTask, description: e.target.value })
                 }
-                className="bg-gray-100 text-gray-600 rounded"
+                className="bg-gray-100 text-gray-600 rounded w-1/1 h-25"
               />
             </div>
             <div>
               <label className="block text-sm font-medium">Priority</label>
               <select
-                className="bg-gray-100 text-gray-600 rounded"
+                className="bg-gray-100 text-gray-600 rounded w-1/4"
                 value={newTask.priority}
                 onChange={(e) =>
                   setNewTask({
@@ -104,41 +98,26 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium">State</label>
-              <select
-                className="bg-gray-100 text-gray-600 rounded"
-                value={newTask.state}
-                onChange={(e) =>
-                  setNewTask({
-                    ...newTask,
-                    state: e.target.value as "todo" | "doing" | "done",
-                  })
-                }
-              >
-                <option value="todo">To do</option>
-                <option value="doing">Doing</option>
-                <option value="done">Done</option>
-              </select>
-            </div>
-            <div>
               <label className="block text-sm font-medium">
-                Responsible User
+                Expected done date
               </label>
-              <select
-                className="bg-gray-100 text-gray-600 rounded"
-                value={newTask.responsibleUserId}
+              <input
+                type="date"
+                className="bg-gray-100 text-gray-600 rounded w-1/4"
+                value={
+                  newTask.expectedDoneDate
+                    ? new Date(newTask.expectedDoneDate)
+                        .toISOString()
+                        .split("T")[0]
+                    : ""
+                }
                 onChange={(e) =>
                   setNewTask({
                     ...newTask,
-                    responsibleUserId: e.target.value,
+                    expectedDoneDate: new Date(e.target.value),
                   })
                 }
-              >
-                <option value="">Dont assigne</option>
-                <option value="u1">Michał Wojciechowski (Admin)</option>
-                <option value="u2">Adam Nowak (DevOps)</option>
-                <option value="u3">Marcin Kłos (Developer)</option>
-              </select>
+              />
             </div>
           </div>
           <div className="flex justify-end space-x-2 mr-5">

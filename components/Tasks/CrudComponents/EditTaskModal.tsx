@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../../types/task";
+import { User } from "../../../types/user";
+import { useUser } from "../../../context/UserContext";
 
 interface EditTaskModalProps {
   isOpen: boolean;
@@ -24,9 +26,12 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
   const [state, setState] = useState<"todo" | "doing" | "done">(
     taskToEdit.state
   );
-  const [responsibleUserId, setResponsibleUserId] = useState<string>(
+  const [responsibleUserId, setResponsibleUserId] = useState<string | null>(
     taskToEdit.responsibleUserId
   );
+
+  const { allUsers } = useUser();
+
   useEffect(() => {
     if (isOpen) {
       setName(taskToEdit.name);
@@ -84,11 +89,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
               setPriority(e.target.value as "low" | "medium" | "high")
             }
             className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
-          >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+          ></select>
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
@@ -111,13 +112,16 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
             Responsible user
           </label>
           <select
-            value={responsibleUserId}
+            value={responsibleUserId || ""}
             onChange={(e) => setResponsibleUserId(e.target.value)}
             className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
           >
-            <option value="u1">Michał Wojciechowski (Admin)</option>
-            <option value="u2">Adam Nowak (DevOps)</option>
-            <option value="u3">Marcin Kłos (Developer)</option>
+            <option value="">Don't assign</option>
+            {allUsers.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name} {user.surname} {user.role}
+              </option>
+            ))}
           </select>
         </div>
 

@@ -6,14 +6,14 @@ import ProjectService from "../../../../services/ProjectService";
 import StoriesList from "../../../../components/Stories/StoriesList";
 
 export default function ProjectStoriesPage() {
-  const { id } = useParams();
+  const { projectId } = useParams();
   const [project, setProject] = useState<Project | null>(null);
   useEffect(() => {
-    if (typeof id === "string") {
-      const foundProject = ProjectService.getProjectById(id);
+    if (typeof projectId === "string") {
+      const foundProject = ProjectService.getProjectById(projectId);
       setProject(foundProject ?? null);
     }
-  }, [id]);
+  }, [projectId]);
   return (
     <div>
       {project ? (
@@ -22,7 +22,7 @@ export default function ProjectStoriesPage() {
             <h1 className="text-3xl">{project.name}</h1>
             <p className="text-l">{project.description}</p>
           </div>
-          <StoriesList projectId={id as string} />
+          <StoriesList projectId={projectId as string} />
         </div>
       ) : (
         <div>Loading project...</div>
