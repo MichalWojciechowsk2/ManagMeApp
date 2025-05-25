@@ -1,6 +1,6 @@
 export interface User {
-  id: string;
+  id?: string;
   name: string;
   surname: string;
-  role: "admin" | "devops" | "developer";
+  role: "admin" | "devops" | "developer" | "guest";
 }

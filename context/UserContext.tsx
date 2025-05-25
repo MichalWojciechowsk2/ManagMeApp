@@ -7,14 +7,17 @@ import React, {
   ReactNode,
 } from "react";
 import { User } from "../types/user";
-import UserService from "../services/UserService";
+import UserApiService from "../services/UserApiService";
 
 interface UserContextType {
   currentUser: User | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
   allUsers: User[];
 }
+
 const UserContext = createContext<UserContextType>({
   currentUser: null,
+  setCurrentUser: () => {},
   allUsers: [],
 });
 
@@ -27,23 +30,35 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    UserService.initMockedUsers();
-    const fetchedUser = UserService.getLoggedInUser();
-    if (fetchedUser) {
-      setCurrentUser(fetchedUser);
-    } else {
-      console.log("No user found in ls");
-    }
-    const allUsers = UserService.getAllUsers();
-    setAllUsers(allUsers);
+    const fetchUserData = async () => {
+      try {
+        const [users, loggedInUser] = await Promise.all([
+          UserApiService.getAllUsers(),
+          UserApiService.getLoggedInUser(),
+        ]);
+
+        setAllUsers(users);
+        if (loggedInUser) {
+          setCurrentUser(loggedInUser);
+        } else {
+          console.log("No user found in localStorage");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
+
   useEffect(() => {
     if (currentUser) {
       console.log(`Logged in user: ${currentUser.name}`);
     }
-  }, []);
+  }, [currentUser]);
+
   return (
-    <UserContext.Provider value={{ currentUser, allUsers }}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser, allUsers }}>
       {children}
     </UserContext.Provider>
   );

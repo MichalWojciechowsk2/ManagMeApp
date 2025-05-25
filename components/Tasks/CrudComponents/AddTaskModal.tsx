@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../../types/task";
-import UserService from "../../../services/UserService";
+import UserService from "../../../services/UserApiService";
 import { User } from "../../../types/user";
 
 interface AddTaskProps {

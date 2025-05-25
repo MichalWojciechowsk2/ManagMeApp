@@ -1,9 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useUser } from "../context/UserContext";
+// import LogInModal from "./Log/LogInModal";
+import Link from "next/link";
 
 const Navbar = () => {
-  const user = useUser();
+  const { currentUser } = useUser();
+
   return (
     <nav className="bg-white border-b border-gray-200 dark:bg-gray-900 mb-5">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
@@ -13,9 +16,26 @@ const Navbar = () => {
             MenageMe
           </span>
         </a>
-        <p className="text-right">
-          Hello {user?.name} {user?.surname}
-        </p>
+
+        {currentUser ? (
+          <div className="flex">
+            <p className="mt-2 mr-5">
+              Hello {currentUser.name} {currentUser.surname}
+            </p>
+            <Link
+              href="/logout"
+              className="bg-blue-700 text-white p-2 w-20 rounded cursor-pointer hover:bg-violet-600 text-center"
+            >
+              <button>Log Out</button>
+            </Link>
+          </div>
+        ) : (
+          <Link href={"/login"}>
+            <button className="bg-blue-700 text-white p-2 w-20 rounded cursor-pointer hover:bg-violet-600">
+              Login
+            </button>
+          </Link>
+        )}
       </div>
     </nav>
   );
