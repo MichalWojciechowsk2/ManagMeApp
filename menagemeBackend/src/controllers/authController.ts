@@ -57,7 +57,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-
+    if (!user.password) {
+      res.status(401).json({ message: "Use Google login" });
+      return;
+    }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).json({ message: "Invalid credentials" });

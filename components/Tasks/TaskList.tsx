@@ -5,6 +5,7 @@ import TaskService from "../../services/TaskService";
 import EditTaskModal from "./CrudComponents/EditTaskModal";
 import DeleteTaskModal from "./CrudComponents/DeleteTaskModal";
 import Link from "next/link";
+import { useUser } from "../../context/UserContext";
 
 interface StoriesListProps {
   projectId: string;
@@ -19,6 +20,7 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [showDeleteTaskModal, setShowDeleteTaskModal] =
     useState<boolean>(false);
+  const { currentUser } = useUser();
 
   const loadTasks = () => {
     const savedTasks = TaskService.getTasks().filter(
@@ -60,12 +62,15 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
   return (
     <div>
       <div className="flex justify-end">
-        <button
-          onClick={() => setShowAddComponent(true)}
-          className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
-        >
-          Add Task
-        </button>
+        {(currentUser?.role === "developer" ||
+          currentUser?.role === "devops") && (
+          <button
+            onClick={() => setShowAddComponent(true)}
+            className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
+          >
+            Add Task
+          </button>
+        )}
       </div>
       <div className="flex space-x-2 ml-5 mr-5 mt-5">
         <div className="bg-[#182236] w-[33%] rounded">
@@ -84,18 +89,24 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
                     <div>{task.name}</div>
                   </Link>
                   <div>
-                    <button
-                      onClick={() => handleEditTask(task)}
-                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteTaskModal(task)}
-                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                    >
-                      Delete
-                    </button>
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        onClick={() => handleEditTask(task)}
+                        className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        onClick={() => handleDeleteTaskModal(task)}
+                        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
@@ -117,18 +128,24 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
                     <div>{task.name}</div>
                   </Link>
                   <div>
-                    <button
-                      onClick={() => handleEditTask(task)}
-                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteTaskModal(task)}
-                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                    >
-                      Delete
-                    </button>
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        onClick={() => handleEditTask(task)}
+                        className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        onClick={() => handleDeleteTaskModal(task)}
+                        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
@@ -150,18 +167,24 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
                     <div>{task.name}</div>
                   </Link>
                   <div>
-                    <button
-                      onClick={() => handleEditTask(task)}
-                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteTaskModal(task)}
-                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                    >
-                      Delete
-                    </button>
+                    {currentUser?.role === "developer" ||
+                      (currentUser?.role === "devops" && (
+                        <button
+                          onClick={() => handleEditTask(task)}
+                          className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer mr-1"
+                        >
+                          Edit
+                        </button>
+                      ))}
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        onClick={() => handleDeleteTaskModal(task)}
+                        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}

@@ -7,6 +7,7 @@ import { Project } from "../../types/project";
 import AddProjectModal from "./Modals/AddProjectModal";
 import DeleteProjectModal from "./Modals/DeleteProjectModal";
 import EditProjectModal from "./Modals/EditProjectModal";
+import { useUser } from "../../context/UserContext";
 
 //React.FC
 const ProjectsList = () => {
@@ -16,6 +17,7 @@ const ProjectsList = () => {
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+  const { currentUser } = useUser();
 
   const loadProjects = () => {
     const savedProjects = ProjectService.getProjects();
@@ -55,12 +57,15 @@ const ProjectsList = () => {
     <div className="">
       <div className="flex justify-between items-center px-[20%] mb-[10px]">
         <div className="text-lg font-medium">Projects</div>
-        <button
-          className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600"
-          onClick={() => setShowAddModal(true)}
-        >
-          Add Project
-        </button>
+        {(currentUser?.role === "developer" ||
+          currentUser?.role === "devops") && (
+          <button
+            className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600"
+            onClick={() => setShowAddModal(true)}
+          >
+            Add Project
+          </button>
+        )}
       </div>
       <div>
         {projects.length === 0 ? (
@@ -90,18 +95,24 @@ const ProjectsList = () => {
                   </div>
                 </Link>
                 <div className="flex space-x-2">
-                  <button
-                    className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
-                    onClick={() => handleEditProject(project)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                    onClick={() => handleAskDelete(project)}
-                  >
-                    Delete
-                  </button>
+                  {(currentUser?.role === "developer" ||
+                    currentUser?.role === "devops") && (
+                    <button
+                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
+                      onClick={() => handleEditProject(project)}
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {(currentUser?.role === "developer" ||
+                    currentUser?.role === "devops") && (
+                    <button
+                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                      onClick={() => handleAskDelete(project)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </li>
             ))}

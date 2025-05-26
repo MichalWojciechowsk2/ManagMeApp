@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Task } from "../../types/task";
 import TaskService from "../../services/TaskService";
 import StorieService from "../../services/StoriesService";
+import UserApiService from "../../services/UserApiService";
+import { User } from "../../types/user";
+import { useUser } from "../../context/UserContext";
 
 interface TaskDetailsProps {
   taskId: string;
@@ -13,6 +16,9 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [modifyTask, setModifyTask] = useState<Task>();
   const [responsibleUserId, setResponsibleUserId] = useState<string>("");
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const { currentUser } = useUser();
+  const [responsibleUser, setResponsibleUser] = useState<User | null>(null);
 
   const loadTask = () => {
     const taskDetails = TaskService.getTaskById(taskId);
@@ -25,6 +31,23 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
     loadTask();
   }, [taskId]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await UserApiService.getAllUsers();
+        const filteredUsers = users.filter(
+          (user) => user.role === "developer" || user.role === "devops"
+        );
+        setFilteredUsers(filteredUsers);
+      } catch (error) {
+        console.error(
+          "Error while fetching user with devops or developer role:",
+          error
+        );
+      }
+    };
+    fetchUsers();
+  }, []);
   if (!task || !modifyTask) {
     return <div>Loading Task Details...</div>;
   }
@@ -39,6 +62,23 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
     setIsEditing(false);
     loadTask();
   };
+
+  // useEffect(() => {
+  //   const fetchResponsibleUser = async () => {
+  //     if (task?.responsibleUserId) {
+  //       try {
+  //         const user = await UserApiService.getUserById(task.responsibleUserId);
+  //         setResponsibleUser(user);
+  //       } catch (error) {
+  //         console.error("Failed to fetch responsible user:", error);
+  //       }
+  //     } else {
+  //       setResponsibleUser(null);
+  //     }
+  //   };
+
+  //   fetchResponsibleUser();
+  // }, [task?.responsibleUserId]);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mt-6 max-w-3xl mx-auto text-gray-800">
@@ -187,10 +227,12 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
                 });
               }}
             >
-              <option value="">Not assigned</option>
-              <option value="u1">Michał Wojciechowski (Admin)</option>
-              <option value="u2">Adam Nowak (DevOps)</option>
-              <option value="u3">Marcin Kłos (Developer)</option>
+              <option value="">Don't asigned</option>
+              {filteredUsers.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name} {user.surname} ({user.role})
+                </option>
+              ))}
             </select>
           </div>
         ) : (
@@ -198,6 +240,11 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
             <label className="block font-medium text-gray-700">
               Assigned User:
             </label>
+            {/* <p className="mt-1">
+              {responsibleUser
+                ? `${responsibleUser.name} ${responsibleUser.surname} (${responsibleUser.role})`
+                : "Not assigned"}
+            </p> */}
             <p className="mt-1">
               {task.responsibleUserId ? task.responsibleUserId : "Not assigned"}
             </p>
@@ -243,31 +290,34 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
       </div>
 
       {/*----------------------------- Action Buttons -----------------------------*/}
-      <div className="text-right space-x-2">
-        {isEditing ? (
-          <>
-            <button
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded shadow"
-              onClick={() => setIsEditing(false)}
-            >
-              Cancel
-            </button>
+      {(currentUser?.role === "devops" ||
+        currentUser?.role === "developer") && (
+        <div className="text-right space-x-2">
+          {isEditing ? (
+            <>
+              <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded shadow"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                onClick={saveModifiedTask}
+              >
+                Save
+              </button>
+            </>
+          ) : (
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-              onClick={saveModifiedTask}
+              onClick={() => setIsEditing(true)}
             >
-              Save
+              Edit Task
             </button>
-          </>
-        ) : (
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-            onClick={() => setIsEditing(true)}
-          >
-            Edit Task
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

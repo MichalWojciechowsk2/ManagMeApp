@@ -5,6 +5,7 @@ import AddStoriesComponent from "./CrudComponents/AddStoriesComponent";
 import DeleteStorieModal from "./CrudComponents/DeleteStorieModal";
 import EditStorieComponent from "./CrudComponents/EditStorieComponent";
 import Link from "next/link";
+import { useUser } from "../../context/UserContext";
 
 interface StoriesListProps {
   projectId: string;
@@ -20,6 +21,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [storieToEdit, setStorieToEdit] = useState<Storie | null>(null);
   const [showEdit, setShowEdit] = useState<boolean>(false);
+  const { currentUser } = useUser();
 
   const loadStories = () => {
     const savedStories = StorieService.getStories().filter(
@@ -66,12 +68,15 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
   return (
     <div>
       <div className="flex justify-end">
-        <button
-          onClick={() => setShowAddComponent(true)}
-          className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
-        >
-          Add Stories
-        </button>
+        {(currentUser?.role === "developer" ||
+          currentUser?.role === "devops") && (
+          <button
+            onClick={() => setShowAddComponent(true)}
+            className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
+          >
+            Add Stories
+          </button>
+        )}
       </div>
       <AddStoriesComponent
         isClicked={showAddComponent}
@@ -125,18 +130,24 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
                     </div>
                   </Link>
                   <div className="w-[20%] flex space-x-2 justify-end">
-                    <button
-                      className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
-                      onClick={() => handleEditStorie(storie)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
-                      onClick={() => handleAskDelete(storie)}
-                    >
-                      Delete
-                    </button>
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        className="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600 cursor-pointer"
+                        onClick={() => handleEditStorie(storie)}
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {(currentUser?.role === "developer" ||
+                      currentUser?.role === "devops") && (
+                      <button
+                        className="bg-red-500 px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
+                        onClick={() => handleAskDelete(storie)}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </li>
                 {showEdit && storieToEdit?.id === storie.id && (
