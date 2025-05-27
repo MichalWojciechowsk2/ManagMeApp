@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../types/task";
-import TaskService from "../../services/TaskService";
-import StorieService from "../../services/StoriesService";
-import UserApiService from "../../services/UserApiService";
+import TaskService from "../../services/TaskApi";
+import StorieService from "../../services/StoriesApi";
+import UserApiService from "../../services/UserApi";
 import { User } from "../../types/user";
 import { useUser } from "../../context/UserContext";
 
@@ -20,11 +20,21 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
   const { currentUser } = useUser();
   const [responsibleUser, setResponsibleUser] = useState<User | null>(null);
 
-  const loadTask = () => {
-    const taskDetails = TaskService.getTaskById(taskId);
-    setTask(taskDetails);
-    setModifyTask(taskDetails);
-    setResponsibleUserId(taskDetails?.responsibleUserId || "");
+  // const loadTask = () => {
+  //   const taskDetails = TaskService.getTaskById(taskId);
+  //   setTask(taskDetails);
+  //   setModifyTask(taskDetails);
+  //   setResponsibleUserId(taskDetails?.responsibleUserId || "");
+  // };
+  const loadTask = async () => {
+    try {
+      const taskDetails = await TaskService.getTaskById(taskId);
+      setTask(taskDetails);
+      setModifyTask(taskDetails);
+      setResponsibleUserId(taskDetails?.responsibleUserId || "");
+    } catch (error) {
+      console.error("Failed to load task:", error);
+    }
   };
 
   useEffect(() => {
@@ -52,15 +62,29 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
     return <div>Loading Task Details...</div>;
   }
 
-  const saveModifiedTask = () => {
-    const updatedTask: Task = {
-      ...modifyTask,
-      responsibleUserId,
-    };
+  // const saveModifiedTask = () => {
+  //   const updatedTask: Task = {
+  //     ...modifyTask,
+  //     responsibleUserId,
+  //   };
 
-    TaskService.updateTask(updatedTask);
-    setIsEditing(false);
-    loadTask();
+  //   TaskService.updateTask(updatedTask);
+  //   setIsEditing(false);
+  //   loadTask();
+  // };
+  const saveModifiedTask = async () => {
+    try {
+      const updatedTask: Task = {
+        ...modifyTask!,
+        responsibleUserId,
+      };
+
+      await TaskService.updateTask(updatedTask);
+      setIsEditing(false);
+      await loadTask();
+    } catch (error) {
+      console.error("Failed to update task:", error);
+    }
   };
 
   // useEffect(() => {

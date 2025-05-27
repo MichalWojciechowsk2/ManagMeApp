@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Storie } from "../../../types/stories";
-import UserService from "../../../services/UserApiService";
+import UserService from "../../../services/UserApi";
 import { User } from "../../../types/user";
 
 interface AddStoriesProps {
@@ -16,7 +16,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   projectId,
 }) => {
   const [newStorie, setNewStorie] = useState<Storie>({
-    id: "",
+    _id: "",
     name: "",
     description: "",
     priority: "low",
@@ -27,7 +27,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   });
   const resetForm = () => {
     setNewStorie({
-      id: "",
+      _id: "",
       name: "",
       description: "",
       priority: "low",
@@ -39,8 +39,11 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
   };
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const u = UserService.getLoggedInUser();
-    setUser(u);
+    const fetchUser = async () => {
+      const u = await UserService.getLoggedInUser();
+      setUser(u);
+    };
+    fetchUser();
   }, []);
   const handleAddNewStorie = () => {
     if (!user) {
@@ -53,7 +56,11 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
       newStorie.priority &&
       newStorie.state
     ) {
-      newStorie.id = Math.random().toString(36).substring(2, 9);
+      if (!user?.id) {
+        console.log("User Id is not defined");
+        return;
+      }
+      newStorie._id = Math.random().toString(36).substring(2, 9);
       newStorie.createDate = new Date();
       newStorie.owner = user.id;
       newStorie.projectId = projectId;

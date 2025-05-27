@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 import { connectDB } from "./db";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
+import projectRoutes from "./routes/projectRoutes";
+import storyRoutes from "./routes/storyRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 dotenv.config();
 
@@ -27,6 +30,9 @@ app.use(passport.session());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/stories", storyRoutes);
+app.use("/api/tasks", taskRoutes);
 
 connectDB().then(() => {
   app.listen(PORT, () => {

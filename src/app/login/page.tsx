@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useUser } from "../../../context/UserContext";
-import UserApiService from "../../../services/UserApiService";
+import UserApiService from "../../../services/UserApi";
 
 const LoginPage = () => {
   const [login, setLogin] = useState("");

@@ -6,6 +6,7 @@ interface DeleteProjectModalProps {
   onClose: () => void;
   onConfirmDelete: () => void;
   projectName?: string;
+  projectId?: string;
 }
 const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
   isOpen,
@@ -17,9 +18,9 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
   const [error, setError] = useState("");
   const expectedInput = `I want to delete ${projectName}`;
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     if (confirmInput.trim() === expectedInput) {
-      onConfirmDelete();
+      await onConfirmDelete();
       setConfirmInput("");
       setError("");
     } else {

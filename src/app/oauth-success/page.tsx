@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../../../context/UserContext";
-import UserApiService from "../../../services/UserApiService";
+import UserApiService from "../../../services/UserApi";
 
 export default function OAuthSuccessPage() {
   const router = useRouter();

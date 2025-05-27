@@ -7,7 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 import { User } from "../types/user";
-import UserApiService from "../services/UserApiService";
+import UserApiService from "../services/UserApi";
 
 interface UserContextType {
   currentUser: User | null;

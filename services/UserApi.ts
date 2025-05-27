@@ -49,7 +49,15 @@ class UserApiService {
       return null;
     }
 
-    return response.json();
+    // return response.json();
+
+    const u = await response.json();
+    return {
+      id: u._id,
+      name: u.name,
+      surname: u.surname,
+      role: u.role,
+    };
   }
 
   static async logout() {

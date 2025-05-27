@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Project } from "../../../../types/project";
-import ProjectService from "../../../../services/ProjectService";
+import ProjectService from "../../../../services/ProjectApi";
 import StoriesList from "../../../../components/Stories/StoriesList";
 
 export default function ProjectStoriesPage() {

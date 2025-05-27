@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Storie } from "../../types/stories";
-import StorieService from "../../services/StoriesService";
+import StorieService from "../../services/StoriesApi";
 import AddStoriesComponent from "./CrudComponents/AddStoriesComponent";
 import DeleteStorieModal from "./CrudComponents/DeleteStorieModal";
 import EditStorieComponent from "./CrudComponents/EditStorieComponent";
@@ -23,19 +23,29 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const { currentUser } = useUser();
 
-  const loadStories = () => {
-    const savedStories = StorieService.getStories().filter(
-      (storie) => storie.projectId === projectId
-    );
-    setStories(savedStories);
+  const loadStories = async () => {
+    try {
+      const savedStories = await StorieService.getStories();
+      setStories(savedStories);
+    } catch (error) {
+      console.error("Failed to load stories:", error);
+    }
+
+    // const savedStories = StorieService.getStories().filter(
+    //   (storie) => storie.projectId === projectId
+    // );
+    // setStories(savedStories);
   };
 
   useEffect(() => {
-    loadStories();
+    const fetchStories = async () => {
+      await loadStories();
+    };
+    fetchStories();
   }, []);
 
-  const handleSaveStorie = (newStorie: Storie) => {
-    StorieService.saveStorie(newStorie);
+  const handleSaveStorie = async (newStorie: Storie) => {
+    await StorieService.saveStorie(newStorie);
     loadStories();
   };
 
@@ -44,13 +54,15 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
     setShowDeleteModal(true);
   };
 
-  const handleConfirmDelete = () => {
-    if (storieToDelete) {
-      StorieService.deleteStorieById(storieToDelete.id);
-      loadStories();
-      setStorieToDelete(null);
-      setShowDeleteModal(false);
+  const handleConfirmDelete = async () => {
+    if (storieToDelete?._id) {
+      await StorieService.deleteStorieById(storieToDelete._id);
+      await loadStories();
+    } else {
+      console.error("Story ID is missing");
     }
+    setStorieToDelete(null);
+    setShowDeleteModal(false);
   };
 
   const handleEditStorie = (storie: Storie) => {
@@ -58,8 +70,8 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
     setShowEdit(true);
   };
 
-  const handleSaveEditStorie = (editedStorie: Storie) => {
-    StorieService.updateStorie(editedStorie);
+  const handleSaveEditStorie = async (editedStorie: Storie) => {
+    await StorieService.updateStorie(editedStorie);
     loadStories();
     setShowEdit(false);
     setStorieToEdit(null);
@@ -113,10 +125,10 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
           {stories
             .filter((storie) => filter === "all" || storie.state === filter)
             .map((storie) => (
-              <React.Fragment key={storie.id}>
+              <React.Fragment key={storie._id}>
                 <li className="flex justify-between items-center group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b] rounded-lg">
                   <Link
-                    href={`/projects/${projectId}/stories/${storie.id}`}
+                    href={`/projects/${projectId}/stories/${storie._id}`}
                     className="flex w-full mb-2 md:w-[70%] cursor-pointer"
                   >
                     <div className="w-[20%] text-ellipsis overflow-hidden whitespace-nowrap mr-3">
@@ -150,7 +162,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
                     )}
                   </div>
                 </li>
-                {showEdit && storieToEdit?.id === storie.id && (
+                {showEdit && storieToEdit?._id === storie._id && (
                   <div className="ml-[20%] mr-[20%] bg-white rounded-b shadow-md">
                     <EditStorieComponent
                       isOpen={showEdit}

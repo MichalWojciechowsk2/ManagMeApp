@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Task } from "../../../types/task";
-import UserService from "../../../services/UserApiService";
+import UserService from "../../../services/UserApi";
 import { User } from "../../../types/user";
 
 interface AddTaskProps {
@@ -16,7 +16,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
   storyId,
 }) => {
   const defaultAddForm: Task = {
-    id: "",
+    _id: "",
     name: "",
     description: "",
     priority: "low",
@@ -33,17 +33,17 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
     setNewTask(defaultAddForm);
   };
   const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    const u = UserService.getLoggedInUser();
-    setUser(u);
-  }, []);
+  // useEffect(() => {
+  //   const u = UserService.getLoggedInUser();
+  //   setUser(u);
+  // }, []);
   const handleAddNewTask = () => {
     if (!user) {
       console.error("No logged in user");
       return;
     }
     if (newTask.name && newTask.description && newTask.priority) {
-      newTask.id = Math.random().toString(36).substring(2, 9);
+      newTask._id = Math.random().toString(36).substring(2, 9);
       newTask.storyId = storyId;
       newTask.addedDate = new Date();
       newTask.responsibleUserId = null;

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useUser } from "../../../context/UserContext";
 import { useEffect, useState } from "react";
-import UserApiService from "../../../services/UserApiService";
+import UserApiService from "../../../services/UserApi";
 
 const LogoutPage = () => {
   const router = useRouter();

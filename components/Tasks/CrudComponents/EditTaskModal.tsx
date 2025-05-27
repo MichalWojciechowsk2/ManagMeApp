@@ -89,7 +89,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
               setPriority(e.target.value as "low" | "medium" | "high")
             }
             className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
-          ></select>
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">

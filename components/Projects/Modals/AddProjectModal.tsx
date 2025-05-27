@@ -13,7 +13,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
   onSave,
 }) => {
   const [newProject, setNewProject] = useState<Project>({
-    id: "",
+    _id: "",
     name: "",
     description: "",
   });
@@ -21,9 +21,9 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
   //Adding new project:
   const handleAddProject = () => {
     if (newProject.name && newProject.description) {
-      newProject.id = Math.random().toString(36).substring(2, 9);
+      newProject._id = Math.random().toString(36).substring(2, 9);
       onSave(newProject);
-      setNewProject({ id: "", name: "", description: "" });
+      setNewProject({ _id: "", name: "", description: "" });
       onClose();
     }
   };

@@ -2,7 +2,7 @@
 import { useParams } from "next/navigation";
 import { Task } from "../../../../../../../../types/task";
 import { useEffect, useState } from "react";
-import TaskService from "../../../../../../../../services/TaskService";
+import TaskService from "../../../../../../../../services/TaskApi";
 import TaskDetails from "../../../../../../../../components/Tasks/TaskDetails";
 
 export default function TasksStoriesPage() {

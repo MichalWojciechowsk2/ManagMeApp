@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import ProjectService from "../../services/ProjectService";
+import ProjectService from "../../services/ProjectApi";
 import { Project } from "../../types/project";
 import AddProjectModal from "./Modals/AddProjectModal";
 import DeleteProjectModal from "./Modals/DeleteProjectModal";
@@ -19,23 +19,29 @@ const ProjectsList = () => {
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const { currentUser } = useUser();
 
-  const loadProjects = () => {
-    const savedProjects = ProjectService.getProjects();
-    setProjects(savedProjects);
+  const loadProjects = async () => {
+    try {
+      const savedProjects = await ProjectService.getProjects();
+      setProjects(savedProjects);
+    } catch (error) {
+      console.error("Failed to load projects:", error);
+    }
   };
 
-  const handleSaveProject = (newProject: Project) => {
-    ProjectService.saveProject(newProject);
+  const handleSaveProject = async (newProject: Project) => {
+    await ProjectService.saveProject(newProject);
     loadProjects();
   };
   const handleAskDelete = (project: Project) => {
     setProjectToDelete(project);
     setShowDeleteModal(true);
   };
-  const handleConfirmDelete = () => {
-    if (projectToDelete) {
-      ProjectService.deleteProjectById(projectToDelete.id);
-      loadProjects();
+  const handleConfirmDelete = async () => {
+    if (projectToDelete?._id) {
+      await ProjectService.deleteProjectById(projectToDelete._id);
+      await loadProjects();
+    } else {
+      console.error("Project ID is missing");
     }
     setProjectToDelete(null);
     setShowDeleteModal(false);
@@ -44,13 +50,16 @@ const ProjectsList = () => {
     setProjectToEdit(project);
     setShowEditModal(true);
   };
-  const handleSaveEditedProject = (editedProject: Project) => {
-    ProjectService.updateProject(editedProject);
+  const handleSaveEditedProject = async (editedProject: Project) => {
+    await ProjectService.updateProject(editedProject);
     loadProjects();
   };
 
   useEffect(() => {
-    loadProjects();
+    const fetchProjects = async () => {
+      await loadProjects();
+    };
+    fetchProjects();
   }, []);
 
   return (
@@ -78,11 +87,11 @@ const ProjectsList = () => {
             </div>
             {projects.map((project) => (
               <li
-                key={project.id}
+                key={project._id}
                 className="flex justify-between items-center ml-[20%] mr-[20%] h-auto group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b]"
               >
                 <Link
-                  href={`/projects/${project.id}`}
+                  href={`/projects/${project._id}`}
                   className="flex w-full mb-2 md:w-[70%] cursor-pointer"
                 >
                   <div className="flex w-full mb-2 md:w-[70%] items-center">
@@ -131,11 +140,14 @@ const ProjectsList = () => {
           }}
           onConfirmDelete={handleConfirmDelete}
           projectName={projectToDelete?.name}
+          projectId={projectToDelete?._id}
         />
         <EditProjectModal
           isOpen={showEditModal}
           onClose={() => setShowEditModal(false)}
-          projectToEdit={projectToEdit || { id: "", name: "", description: "" }}
+          projectToEdit={
+            projectToEdit || { _id: "", name: "", description: "" }
+          }
           onSave={handleSaveEditedProject}
         />
       </div>
