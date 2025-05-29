@@ -69,6 +69,7 @@ const ProjectsList = () => {
         {(currentUser?.role === "developer" ||
           currentUser?.role === "devops") && (
           <button
+            data-testid="new-project-button"
             className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600"
             onClick={() => setShowAddModal(true)}
           >

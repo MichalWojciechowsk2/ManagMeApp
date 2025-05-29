@@ -83,6 +83,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
         {(currentUser?.role === "developer" ||
           currentUser?.role === "devops") && (
           <button
+            data-testid="addstories"
             onClick={() => setShowAddComponent(true)}
             className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
           >

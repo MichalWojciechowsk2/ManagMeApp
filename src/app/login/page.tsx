@@ -54,6 +54,7 @@ const LoginPage = () => {
             Login
           </label>
           <input
+            data-testid="login-input"
             type="text"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
@@ -65,6 +66,7 @@ const LoginPage = () => {
             Password
           </label>
           <input
+            data-testid="password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -89,6 +91,7 @@ const LoginPage = () => {
         </button>
         <div className="flex justify-end space-x-2">
           <button
+            data-testid="login-button"
             onClick={handleLogin}
             className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md cursor-pointer"
             disabled={loading}

@@ -62,6 +62,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
             <div className="mb-2">
               <label className="block text-sm font-medium">Name</label>
               <input
+                data-testid="task-name-input"
                 type="text"
                 value={newTask.name}
                 onChange={(e) =>
@@ -73,6 +74,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
             <div>
               <label className="block text-sm font-medium">Description</label>
               <textarea
+                data-testid="task-secs-input"
                 value={newTask.description}
                 onChange={(e) =>
                   setNewTask({ ...newTask, description: e.target.value })
@@ -136,6 +138,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
                 resetForm();
               }}
               className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md cursor-pointer"
+              data-testid="create-task-submit"
             >
               Save
             </button>

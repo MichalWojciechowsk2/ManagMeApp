@@ -40,6 +40,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
               Name
             </label>
             <input
+              data-testid="project-name-input"
               type="text"
               value={newProject.name}
               onChange={(e) =>
@@ -53,6 +54,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
               Description
             </label>
             <textarea
+              data-testid="project-description-input"
               value={newProject.description}
               onChange={(e) =>
                 setNewProject({ ...newProject, description: e.target.value })
@@ -68,6 +70,7 @@ const AddProjectModal: React.FC<AddProjectModalProps> = ({
               Cancel
             </button>
             <button
+              data-testid="create-project-submit"
               onClick={handleAddProject}
               className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md cursor-pointer"
             >

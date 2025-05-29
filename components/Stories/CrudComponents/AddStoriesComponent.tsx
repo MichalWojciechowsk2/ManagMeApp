@@ -77,6 +77,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
           <div className="mb-2">
             <label className="block text-sm font-medium">Name</label>
             <input
+              data-testid="story-name-input"
               type="text"
               value={newStorie.name}
               onChange={(e) =>
@@ -88,6 +89,8 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
           <div>
             <label className="block text-sm font-medium">Description</label>
             <input
+              data-testid="story-description
+            -input"
               type="text"
               value={newStorie.description}
               onChange={(e) =>
@@ -147,6 +150,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
               resetForm();
             }}
             className="bg-violet-500 hover:bg-violet-700 text-white px-4 py-2 rounded-md cursor-pointer"
+            data-testid="create-story-submit"
           >
             Save
           </button>

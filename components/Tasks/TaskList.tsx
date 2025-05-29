@@ -85,6 +85,7 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
         {(currentUser?.role === "developer" ||
           currentUser?.role === "devops") && (
           <button
+            data-testid="new-task-button"
             onClick={() => setShowAddComponent(true)}
             className="bg-violet-500 text-white p-2 rounded cursor-pointer hover:bg-violet-600 mr-10"
           >
