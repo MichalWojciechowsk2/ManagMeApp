@@ -89,7 +89,7 @@ const ProjectsList = () => {
             {projects.map((project) => (
               <li
                 key={project._id}
-                className="flex justify-between items-center ml-[20%] mr-[20%] h-auto group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b]"
+                className="flex justify-between items-center ml-[20%] mr-[20%] h-auto group mb-1 border border-gray-700 rounded-md p-1"
               >
                 <Link
                   href={`/projects/${project._id}`}

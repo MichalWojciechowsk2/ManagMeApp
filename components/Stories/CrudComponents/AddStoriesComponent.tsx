@@ -83,7 +83,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
               onChange={(e) =>
                 setNewStorie({ ...newStorie, name: e.target.value })
               }
-              className="bg-gray-100 text-gray-600 rounded"
+              className="bg-gray-100 rounded"
             />
           </div>
           <div>
@@ -96,7 +96,7 @@ const AddStoriesComponent: React.FC<AddStoriesProps> = ({
               onChange={(e) =>
                 setNewStorie({ ...newStorie, description: e.target.value })
               }
-              className="bg-gray-100 text-gray-600 rounded"
+              className="bg-gray-100 rounded"
             />
           </div>
           <div>

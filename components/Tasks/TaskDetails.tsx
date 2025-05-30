@@ -109,26 +109,24 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
       <h2 className="text-2xl font-semibold mb-4">{task.name}</h2>
 
       {/* <div className="mb-6">
-        <label className="block font-medium text-gray-700">Storie:</label>
-        <p className="mt-1 text-gray-600 whitespace-pre-wrap">
+        <label className="block font-medium ">Storie:</label>
+        <p className="mt-1  whitespace-pre-wrap">
           {StorieService.getStorieById(storieId)}
         </p>
       </div> */}
 
       <div className="mb-6">
-        <label className="block font-medium text-gray-700">Description:</label>
-        <p className="mt-1 text-gray-600 whitespace-pre-wrap">
-          {task.description}
-        </p>
+        <label className="block font-medium ">Description:</label>
+        <p className="mt-1  whitespace-pre-wrap">{task.description}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         {/* ----------------------------- Priority  -----------------------------*/}
         {isEditing ? (
           <div>
-            <label className="block font-medium text-gray-700">Priority</label>
+            <label className="block font-medium ">Priority</label>
             <select
-              className="bg-gray-100 text-gray-600 rounded w-full"
+              className="  rounded w-full text-black bg-white"
               value={modifyTask.priority}
               onChange={(e) =>
                 setModifyTask({
@@ -144,7 +142,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
           </div>
         ) : (
           <div>
-            <label className="block font-medium text-gray-700">Priority:</label>
+            <label className="block font-medium ">Priority:</label>
             <p className="mt-1 capitalize">{task.priority}</p>
           </div>
         )}
@@ -154,7 +152,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
           <div>
             <label className="block text-sm font-medium">State</label>
             <select
-              className="block font-medium text-gray-700"
+              className="block font-medium text-black bg-white"
               value={modifyTask.state}
               onChange={(e) => {
                 const newState = e.target.value as "todo" | "doing" | "done";
@@ -188,14 +186,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
           </div>
         ) : (
           <div>
-            <label className="block font-medium text-gray-700">State:</label>
+            <label className="block font-medium ">State:</label>
             <p className="mt-1 capitalize">{task.state}</p>
           </div>
         )}
 
         {/* -----------------------------Read-only: Added Date -----------------------------*/}
         <div>
-          <label className="block font-medium text-gray-700">Added Date:</label>
+          <label className="block font-medium ">Added Date:</label>
           <p className="mt-1">
             {new Date(task.addedDate).toLocaleDateString()}
           </p>
@@ -203,7 +201,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
 
         {/* -----------------------------Read-only: Start Date -----------------------------*/}
         <div>
-          <label className="block font-medium text-gray-700">Start Date:</label>
+          <label className="block font-medium ">Start Date:</label>
           <p className="mt-1">
             {task.startDate
               ? new Date(task.startDate).toLocaleDateString()
@@ -213,7 +211,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
 
         {/*----------------------------- Read-only: End Date -----------------------------*/}
         <div>
-          <label className="block font-medium text-gray-700">End Date:</label>
+          <label className="block font-medium ">End Date:</label>
           <p className="mt-1">
             {task.endDate
               ? new Date(task.endDate).toLocaleDateString()
@@ -224,11 +222,11 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
         {/* Responsible User */}
         {isEditing ? (
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium ">
               Responsible user
             </label>
             <select
-              className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
+              className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-black bg-white"
               value={responsibleUserId}
               onChange={(e) => {
                 const newUser = e.target.value;
@@ -261,9 +259,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
           </div>
         ) : (
           <div>
-            <label className="block font-medium text-gray-700">
-              Assigned User:
-            </label>
+            <label className="block font-medium ">Assigned User:</label>
             {/* <p className="mt-1">
               {responsibleUser
                 ? `${responsibleUser.name} ${responsibleUser.surname} (${responsibleUser.role})`
@@ -278,12 +274,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
         {/*----------------------------- Expected Done Date -----------------------------*/}
         {isEditing ? (
           <div>
-            <label className="block font-medium text-gray-700">
-              Expected done date
-            </label>
+            <label className="block font-medium ">Expected done date</label>
             <input
               type="date"
-              className="bg-gray-100 text-gray-600 rounded w-full"
+              className="rounded w-full text-black bg-white"
               value={
                 modifyTask.expectedDoneDate
                   ? new Date(modifyTask.expectedDoneDate)
@@ -301,9 +295,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({ taskId }) => {
           </div>
         ) : (
           <div>
-            <label className="block font-medium text-gray-700">
-              Expected Done Date:
-            </label>
+            <label className="block font-medium ">Expected Done Date:</label>
             <p className="mt-1">
               {task.expectedDoneDate
                 ? new Date(task.expectedDoneDate).toLocaleDateString()

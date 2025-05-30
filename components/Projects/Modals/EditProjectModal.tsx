@@ -34,26 +34,22 @@ const EditProjectModal: React.FC<EditProjectModalProps> = ({
   return isOpen ? (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-1/3">
-        <h2 className="text-xl mb-4 c-black text-gray-700">Edit Project</h2>
+        <h2 className="text-xl mb-4 c-black">Edit Project</h2>
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Name
-          </label>
+          <label className="block text-sm font-medium ">Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
+          <label className="block text-sm font-medium">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-1 p-2 w-full h-40 border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full h-40 border border-gray-300 rounded-md"
           />
         </div>
         <div className="flex justify-end space-x-2 mt-4">

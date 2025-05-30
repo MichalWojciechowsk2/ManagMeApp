@@ -31,15 +31,11 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-2/3 h-1/2">
-        <h2 className="text-xl mb-4 text-gray-800 font-semibold">
-          Delete Project
-        </h2>
-        <p className="text-gray-700">
-          Are you sure you want to delete {projectName}?
-        </p>
-        <p className="text-gray-700">
+        <h2 className="text-xl mb-4 font-semibold">Delete Project</h2>
+        <p className="">Are you sure you want to delete {projectName}?</p>
+        <p className="">
           To delete project write
-          <span className="text-red-500">
+          <span className="text-red-300">
             {" "}
             "I want to delete {projectName}"{" "}
           </span>
@@ -50,7 +46,7 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
           placeholder="Type confirmation text"
           value={confirmInput}
           onChange={(e) => setConfirmInput(e.target.value)}
-          className="mt-1 p-1 w-full border border-gray-300 rounded-md text-gray-600"
+          className="mt-1 p-1 w-full border border-gray-300 rounded-md "
         />
         {error && <p className="text-red-500">{error}</p>}
         <div className="flex justify-end space-x-2 mt-4">

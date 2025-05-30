@@ -105,7 +105,7 @@ const TasksList: React.FC<StoriesListProps> = ({ projectId, storyId }) => {
                 .map((task) => (
                   <li
                     key={task._id}
-                    className="flex justify-between items-center group mb-2 rounded-lg"
+                    className="flex justify-between items-center group mb-2 border border-gray-700 rounded-md p-2"
                   >
                     <Link
                       href={`/projects/${projectId}/stories/${storyId}/tasks/${task._id}`}

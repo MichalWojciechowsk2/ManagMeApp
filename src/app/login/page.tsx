@@ -47,36 +47,32 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-6 rounded-lg w-full max-w-md shadow">
-        <h2 className="text-xl mb-4 text-gray-700">Log In</h2>
+        <h2 className="text-xl mb-4 ">Log In</h2>
         {error && <div className="mb-4 text-red-600">{error}</div>}
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Login
-          </label>
+          <label className="block text-sm font-medium ">Login</label>
           <input
             data-testid="login-input"
             type="text"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
+          <label className="block text-sm font-medium ">Password</label>
           <input
             data-testid="password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
           />
         </div>
         <div>
           <Link
             href={"/register"}
-            className="text-gray-600 hover:underline hover:text-violet-600"
+            className=" hover:underline hover:text-violet-600"
           >
             Don't have account? Click here
           </Link>

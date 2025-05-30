@@ -21,12 +21,8 @@ const DeleteStorieModal: React.FC<DelteStoriesModalProps> = ({
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-2/3 h-1/5">
-        <h2 className="text-xl mb-4 text-gray-800 font-semibold">
-          Delete Storie
-        </h2>
-        <p className="text-gray-700">
-          Are you sure you want to delete {storieName}?
-        </p>
+        <h2 className="text-xl mb-4  font-semibold">Delete Storie</h2>
+        <p className="">Are you sure you want to delete {storieName}?</p>
         <div className="flex justify-end space-x-2 mt-4">
           <button
             onClick={() => {

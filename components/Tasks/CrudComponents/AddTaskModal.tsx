@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Task } from "../../../types/task";
 import UserService from "../../../services/UserApi";
 import { User } from "../../../types/user";
+import { useUser } from "../../../context/UserContext";
 
 interface AddTaskProps {
   isClicked: boolean;
@@ -32,11 +33,13 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
   const resetForm = () => {
     setNewTask(defaultAddForm);
   };
-  const [user, setUser] = useState<User | null>(null);
+  const { currentUser } = useUser();
+  const [user, setUser] = useState<User | null>(currentUser);
   // useEffect(() => {
   //   const u = UserService.getLoggedInUser();
   //   setUser(u);
   // }, []);
+
   const handleAddNewTask = () => {
     if (!user) {
       console.error("No logged in user");
@@ -68,7 +71,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
                 onChange={(e) =>
                   setNewTask({ ...newTask, name: e.target.value })
                 }
-                className="bg-gray-100 text-gray-600 rounded w-1/2"
+                className=" rounded w-1/2"
               />
             </div>
             <div>
@@ -79,13 +82,13 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
                 onChange={(e) =>
                   setNewTask({ ...newTask, description: e.target.value })
                 }
-                className="bg-gray-100 text-gray-600 rounded w-1/1 h-25"
+                className=" rounded w-1/1 h-25"
               />
             </div>
             <div>
               <label className="block text-sm font-medium">Priority</label>
               <select
-                className="bg-gray-100 text-gray-600 rounded w-1/4"
+                className=" text-black bg-white rounded w-1/4"
                 value={newTask.priority}
                 onChange={(e) =>
                   setNewTask({
@@ -105,7 +108,7 @@ const AddTaskComponent: React.FC<AddTaskProps> = ({
               </label>
               <input
                 type="date"
-                className="bg-gray-100 text-gray-600 rounded w-1/4"
+                className=" rounded w-2/4"
                 value={
                   newTask.expectedDoneDate
                     ? new Date(newTask.expectedDoneDate)

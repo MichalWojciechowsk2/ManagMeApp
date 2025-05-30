@@ -23,18 +23,29 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const { currentUser } = useUser();
 
+  // const loadStories = async () => {
+  //   try {
+  //     const savedStories = await StorieService.getStories();
+  //     setStories(savedStories);
+  //   } catch (error) {
+  //     console.error("Failed to load stories:", error);
+  //   }
+
+  //   // const savedStories = StorieService.getStories().filter(
+  //   //   (storie) => storie.projectId === projectId
+  //   // );
+  //   // setStories(savedStories);
+  // };
   const loadStories = async () => {
     try {
-      const savedStories = await StorieService.getStories();
+      const stories = await StorieService.getStories();
+      const savedStories = stories.filter(
+        (storie: Storie) => storie.projectId === projectId
+      );
       setStories(savedStories);
     } catch (error) {
       console.error("Failed to load stories:", error);
     }
-
-    // const savedStories = StorieService.getStories().filter(
-    //   (storie) => storie.projectId === projectId
-    // );
-    // setStories(savedStories);
   };
 
   useEffect(() => {
@@ -127,7 +138,7 @@ const StoriesList: React.FC<StoriesListProps> = ({ projectId }) => {
             .filter((storie) => filter === "all" || storie.state === filter)
             .map((storie) => (
               <React.Fragment key={storie._id}>
-                <li className="flex justify-between items-center group odd:bg-[#151d30] even:bg-[#182236] hover:bg-[#202e4b] rounded-lg">
+                <li className="flex justify-between items-center group border border-gray-700 rounded-md mb-1 p-1">
                   <Link
                     href={`/projects/${projectId}/stories/${storie._id}`}
                     className="flex w-full mb-2 md:w-[70%] cursor-pointer"

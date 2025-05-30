@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+} */
 
 @theme inline {
   --color-background: var(--background);
@@ -21,7 +21,27 @@
 
 body {
   /* changed to #111827, remember while doing dark/light mode */
-  background: #111827;
+  /* background: #111827; */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.dark div,
+.dark input,
+.dark body {
+  background: #111827;
+  color: #f1f1f1;
+}
+
+.light div,
+.light input,
+.light body {
+  background: #5c84da;
+}
+
+.dark input,
+.dark textarea,
+.light input,
+.light textarea {
+  border: 1px solid white;
 }

@@ -47,30 +47,26 @@ const EditStorieComponent: React.FC<EditStorieProps> = ({
   return isOpen ? (
     <div className="bg-slate-600 p-4">
       <div className="mb-2">
-        <label className="block text-xs font-medium text-gray-200">Name</label>
+        <label className="block text-xs font-medium ">Name</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-200 text-xs"
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md  text-xs"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-xs font-medium text-gray-200">
-          Description
-        </label>
+        <label className="block text-xs font-medium ">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 p-2 w-full h-20 border border-gray-300 rounded-md text-gray-200 text-xs"
+          className="mt-1 p-2 w-full h-20 border border-gray-300 rounded-md  text-xs"
         />
       </div>
       <div className="mb-2">
-        <label className="block text-xs font-medium text-gray-200">
-          Priority
-        </label>
+        <label className="block text-xs font-medium ">Priority</label>
         <select
-          className="bg-slate-600 text-gray-200 rounded text-xs border"
+          className="  rounded text-xs border text-black bg-white"
           value={priority}
           onChange={(e) =>
             setPriority(e.target.value as "low" | "medium" | "high")
@@ -82,9 +78,9 @@ const EditStorieComponent: React.FC<EditStorieProps> = ({
         </select>
       </div>
       <div className="mb-2">
-        <label className="block text-xs font-medium text-gray-200">State</label>
+        <label className="block text-xs font-medium ">State</label>
         <select
-          className="bg-slate-600 text-gray-200 rounded text-xs border"
+          className="rounded text-xs border text-black bg-white"
           value={state}
           onChange={(e) =>
             setState(e.target.value as "todo" | "doing" | "done")

@@ -55,40 +55,34 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
     onClose();
   };
   return isOpen ? (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+    <div className="fixed inset-0  bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-1/3">
-        <h2 className="text-xl mb-4 c-black text-gray-700">Edit Task</h2>
+        <h2 className="text-xl mb-4 c-black ">Edit Task</h2>
         <div className="mb-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Name
-          </label>
+          <label className="block text-sm font-medium ">Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md "
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
+          <label className="block text-sm font-medium ">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-1 p-2 w-full h-40 border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full h-40 border border-gray-300 rounded-md "
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Priority
-          </label>
+          <label className="block text-sm font-medium ">Priority</label>
           <select
             value={priority}
             onChange={(e) =>
               setPriority(e.target.value as "low" | "medium" | "high")
             }
-            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-black bg-white "
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -96,15 +90,13 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            State
-          </label>
+          <label className="block text-sm font-medium ">State</label>
           <select
             value={state}
             onChange={(e) =>
               setState(e.target.value as "todo" | "doing" | "done")
             }
-            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-black bg-white"
           >
             <option value="todo">To do</option>
             <option value="doing">Doing</option>
@@ -112,13 +104,11 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Responsible user
-          </label>
+          <label className="block text-sm font-medium ">Responsible user</label>
           <select
             value={responsibleUserId || ""}
             onChange={(e) => setResponsibleUserId(e.target.value)}
-            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-gray-600"
+            className="mt-1 p-2 w-full h-10 border border-gray-300 rounded-md text-black bg-white"
           >
             <option value="">Don't assign</option>
             {allUsers.map((user) => (
